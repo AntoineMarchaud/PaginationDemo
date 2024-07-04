@@ -1,12 +1,8 @@
 package com.amarchaud.data.models
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
 
-@Entity(
-    tableName = "Page",
-)
+@Serializable
 data class PageEntityModel(
-    @PrimaryKey
     val page: Int = 0,
 )
