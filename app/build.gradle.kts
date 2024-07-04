@@ -5,9 +5,6 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.org.jetbrains.kotlin.serializable)
     alias(libs.plugins.compose.compiler)
-    // Hilt
-    alias(libs.plugins.com.google.devtools.ksp)
-    alias(libs.plugins.com.google.dagger.hilt.android)
 }
 
 android {
@@ -48,6 +45,8 @@ android {
     packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/io.netty.versions.properties"
+            excludes += "/META-INF/INDEX.LIST"
         }
     }
 
@@ -64,10 +63,9 @@ dependencies {
     implementation(project(":ui"))
     implementation(project(":data"))
 
-    // Hilt
-    implementation(libs.hilt.android)
-    implementation(libs.bundles.hilt.androidx)
-    ksp(libs.hiltCompiler)
+    // koin
+    implementation(platform(libs.koin.bom))
+    implementation(libs.bundles.koin)
 
     // Compose
     implementation(platform(libs.compose.bom))

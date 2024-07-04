@@ -45,7 +45,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.amarchaud.ui.R
 import com.amarchaud.ui.composables.ImageLoaderSubCompose
 import com.amarchaud.ui.composables.ShimmerAnimationItem
@@ -54,13 +53,14 @@ import com.amarchaud.ui.screen.detail.models.UserDetailUiModel
 import com.amarchaud.ui.screen.mainList.composables.OneUserSharedId
 import com.amarchaud.ui.screen.mainList.mockUser
 import com.amarchaud.ui.theme.PaginationDemoTheme
+import org.koin.androidx.compose.koinViewModel
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 
 @Composable
 fun UserDetailComposable(
-    viewModel: UserDetailViewModel = hiltViewModel(),
+    viewModel: UserDetailViewModel = koinViewModel(),
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
     onBack: () -> Unit

@@ -1,63 +1,35 @@
 package com.amarchaud.data.di
 
-import com.amarchaud.data.BuildConfig
 import com.amarchaud.data.api.PaginationDemoApi
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import com.amarchaud.data.api.PaginationDemoApiKtorImpl
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.android.Android
+import io.ktor.client.plugins.DefaultRequest
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.request.header
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.kotlinx.serialization.asConverterFactory
-import javax.inject.Singleton
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-object NetworkModule {
+val networkModule = module {
 
-    @Singleton
-    @Provides
-    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
-    }
-
-    @Singleton
-    @Provides
-    fun provideClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor
-    ): OkHttpClient {
-        val builder = OkHttpClient.Builder().apply {
-            if (BuildConfig.DEBUG) {
-                addInterceptor(httpLoggingInterceptor)
+    // Provide the Ktor HttpClient
+    single<HttpClient> {
+        HttpClient(Android) {
+            install(DefaultRequest) {
+                url("https://randomuser.me/")
+                header(HttpHeaders.ContentType, ContentType.Application.Json)
+            }
+            install(ContentNegotiation) {
+                json(Json)
             }
         }
-        return builder.build()
     }
 
-    @Singleton
-    @Provides
-    fun provideJson() = Json {
-        ignoreUnknownKeys = true
-    }
-
-    @Singleton
-    @Provides
-    fun provideDomainApi(
-        json: Json,
-        okHttpClient: OkHttpClient
-    ): PaginationDemoApi {
-        return Retrofit.Builder()
-            .baseUrl("https://randomuser.me/")
-            .addConverterFactory(
-                json.asConverterFactory(
-                        "application/json; charset=UTF8".toMediaType()
-                    )
-            )
-            .client(okHttpClient)
-            .build()
-            .create(PaginationDemoApi::class.java)
+    // Provide the API implementation
+    single<PaginationDemoApi> {
+        PaginationDemoApiKtorImpl(get())
     }
 }

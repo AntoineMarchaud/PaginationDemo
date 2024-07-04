@@ -133,9 +133,7 @@ data class RegisteredDataModel(
 
 @Serializable
 data class IdDataModel(
-    @SerialName("name")
     val name: String? = null,
-    @SerialName("value")
     val value: String? = null,
 )
 

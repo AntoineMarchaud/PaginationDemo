@@ -45,7 +45,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
@@ -60,6 +59,7 @@ import com.amarchaud.ui.screen.mainList.models.UserGenericUiModel
 import com.amarchaud.ui.screen.mainList.models.toMessage
 import com.amarchaud.ui.theme.PaginationDemoTheme
 import kotlinx.coroutines.flow.MutableStateFlow
+import org.koin.androidx.compose.koinViewModel
 
 internal val heightOneCell = 96.dp
 private const val MAX_ELEMENTS_TO_ANIMATE = 16
@@ -71,7 +71,7 @@ private val animationCubic = CubicBezierEasing(0f, 0.56f, 0.46f, 1f)
 
 @Composable
 fun MainListComposable(
-    viewModel: MainListViewModel = hiltViewModel(),
+    viewModel: MainListViewModel = koinViewModel(),
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
     onUserClick: (Long) -> Unit

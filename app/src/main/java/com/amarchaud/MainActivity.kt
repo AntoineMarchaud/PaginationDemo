@@ -14,10 +14,8 @@ import androidx.navigation.compose.rememberNavController
 import com.amarchaud.ui.screen.detail.UserDetailComposable
 import com.amarchaud.ui.screen.mainList.MainListComposable
 import com.amarchaud.ui.theme.PaginationDemoTheme
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.Serializable
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     @Serializable

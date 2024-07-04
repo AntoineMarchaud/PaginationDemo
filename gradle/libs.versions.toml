@@ -11,9 +11,8 @@ android_gradle_plugin = "8.11.1"
 kotlinxSerializationJson = "1.9.0"
 ksp-plugin = "2.2.0-2.0.2"
 
-#Hilt
-hilt = "2.56.2"
-hiltAndroidX = "1.2.0"
+#Koin
+koin_version = "4.0.0"
 
 # Ktx
 activity_ktx = "1.10.1"
@@ -35,10 +34,9 @@ navigation_version = "2.9.1"
 
 # Others
 coil_version = "3.2.0"
-
-retrofit_version = "3.0.0"
-room = "2.7.2"
-okhttp = "5.1.0"
+ktor_version = "3.1.3"
+sqldelight_version = "2.1.0"
+coreKtx_version = "1.6.1"
 
 [bundles]
 
@@ -46,10 +44,10 @@ compose = ["compose_viewbinding", "compose_material", "compose_animation", "comp
     "constraintlayout_compose", "activity_compose", "compose_paging"]
 accompanist = ["accompanist_permissions", "accompanist-drawablepainter"]
 navigation = ["navigation_compose", "navigation_fragment_ktx", "navigation_ui_ktx"]
-hilt_androidx = ["hilt_androidx_navigation_compose", "hilt_androidx_navigation_fragment", "hilt_androidx_navigation", "hilt_androidx_common"]
+koin = ["koin-android", "koin-core", "koin-compose"]
 test = ["junit", "kotlinx_coroutines_test", "mockito_kotlin", "mockito_inline", "paging_test"]
-api = ["retrofit", "retrofitKotlinSerialization", "okhttp", "okhttpLog"]
-room = ["room", "roomktx", "roomPaging"]
+ktor = ["ktor_client", "ktor_client_serialization", "ktor_client_android", "ktor_server", "ktor_client_content"]
+sqldelight = ["sqldelight-android-driver", "sqldelight-runtime", "sqldelight-paging"]
 coil = ["coil-main", "coil-okhttp"]
 
 [plugins]
@@ -62,17 +60,15 @@ org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.re
 org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 org-jetbrains-kotlin-serializable = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-#hilt
-com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp-plugin" }
+
+sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight_version" }
 
 [libraries]
 
-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
-hilt_androidx_common = { module = "androidx.hilt:hilt-common", version.ref = "hiltAndroidX" }
-hilt_androidx_navigation = { module = "androidx.hilt:hilt-navigation", version.ref = "hiltAndroidX" }
-hilt_androidx_navigation_fragment = { module = "androidx.hilt:hilt-navigation-fragment", version.ref = "hiltAndroidX" }
-hilt_androidx_navigation_compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltAndroidX" }
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin_version" }
+koin-core = { module = "io.insert-koin:koin-core" }
+koin-android = { module = "io.insert-koin:koin-android" }
+koin-compose = { module = "io.insert-koin:koin-androidx-compose" }
 
 core_ktx = { module = "androidx.core:core-ktx", version.ref = "core_ktx" }
 fragment_ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment_ktx" }
@@ -88,7 +84,6 @@ compose_livedata = { module = "androidx.compose.runtime:runtime-livedata" }
 compose_paging = { module = "androidx.paging:paging-compose", version.ref = "pagingCommon" }
 constraintlayout_compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayout_compose" }
 
-javax-inject = { module = "javax.inject:javax.inject", version.ref = "javaxInject" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 navigation_compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation_version" }
 navigation_fragment_ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation_version" }
@@ -98,14 +93,16 @@ accompanist_permissions = { module = "com.google.accompanist:accompanist-permiss
 accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanist" }
 
 paging-common = { module = "androidx.paging:paging-common", version.ref = "pagingCommon" }
-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit_version" }
-retrofitKotlinSerialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit_version" }
-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
-okhttpLog = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 
-room = { module = "androidx.room:room-runtime", version.ref = "room" }
-roomPaging = { module = "androidx.room:room-paging", version.ref = "room" }
-roomktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+ktor_client = { module = "io.ktor:ktor-client-core", version.ref = "ktor_version" }
+ktor_server = { module = "io.ktor:ktor-server-netty", version.ref = "ktor_version" }
+ktor_client_android = { module = "io.ktor:ktor-client-android", version.ref = "ktor_version" }
+ktor_client_content = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor_version" }
+ktor_client_serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor_version" }
+
+sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight_version" }
+sqldelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqldelight_version" }
+sqldelight-paging = { module = "app.cash.sqldelight:androidx-paging3-extensions", version.ref = "sqldelight_version" }
 
 osmdroid = { module = 'org.osmdroid:osmdroid-android', version = '6.1.20' }
 
@@ -114,12 +111,11 @@ coil-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "
 
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.7.1" }
 
-# for KSP
-hiltCompiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
-roomCompiler = { module = "androidx.room:room-compiler", version.ref = "room" }
-
 junit = { module = "junit:junit", version = "4.13.2" }
+
 mockito_kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "5.4.0" }
 mockito_inline = { group = "org.mockito", name = "mockito-inline", version = "5.2.0" }
 kotlinx_coroutines_test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines_version" }
 paging_test = { module = "androidx.paging:paging-testing", version.ref = "pagingCommon" }
+koin_test = { module = "io.insert-koin:koin-android-test" }
+core-ktx-test = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtx_version" }

@@ -12,8 +12,6 @@ kotlin {
 }
 
 dependencies {
-    implementation(libs.javax.inject)
-
     // Paging kotlin
     implementation(libs.paging.common)
 

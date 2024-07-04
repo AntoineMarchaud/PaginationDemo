@@ -1,0 +1,78 @@
+-- PaginationDemo.sq
+
+CREATE TABLE PageEntity (
+    page INTEGER NOT NULL PRIMARY KEY
+);
+
+CREATE TABLE UsersEntity (
+    _id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    gender TEXT DEFAULT NULL,
+    name_title TEXT DEFAULT NULL,
+    name_first TEXT DEFAULT NULL,
+    name_last TEXT DEFAULT NULL,
+    location_street_number INTEGER DEFAULT NULL,
+    location_street_name TEXT DEFAULT NULL,
+    location_city TEXT DEFAULT NULL,
+    location_state TEXT DEFAULT NULL,
+    location_country TEXT DEFAULT NULL,
+    location_postcode TEXT DEFAULT NULL,
+    location_coordinates_latitude TEXT DEFAULT NULL,
+    location_coordinates_longitude TEXT DEFAULT NULL,
+    location_timezone_offset TEXT DEFAULT NULL,
+    location_timezone_description TEXT DEFAULT NULL,
+    email TEXT NOT NULL,
+    dob_date TEXT DEFAULT NULL,
+    dob_age INTEGER DEFAULT NULL,
+    registered_date TEXT DEFAULT NULL,
+    registered_age INTEGER DEFAULT NULL,
+    id_name TEXT DEFAULT NULL,
+    id_value TEXT DEFAULT NULL,
+    picture_large TEXT DEFAULT NULL,
+    picture_medium TEXT DEFAULT NULL,
+    picture_thumbnail TEXT DEFAULT NULL,
+    nat TEXT DEFAULT NULL
+);
+
+getPagedUsers:
+SELECT * FROM UsersEntity ORDER BY _id LIMIT :limit OFFSET :offset;
+
+-- Récupérer tous les utilisateurs pour la pagination
+getUsersPagingSource:
+SELECT * FROM UsersEntity ORDER BY _id;
+
+-- Récupérer un utilisateur à partir de son ID
+getUserFromCache:
+SELECT * FROM UsersEntity WHERE _id = ?;
+
+-- total des utilisateurs
+countUsers:
+SELECT COUNT(*) FROM UsersEntity;
+
+-- Insérer un utilisateur
+insertUser:
+INSERT INTO UsersEntity(
+    gender, name_title, name_first, name_last,
+    location_street_number, location_street_name, location_city, location_state,
+    location_country, location_postcode, location_coordinates_latitude, location_coordinates_longitude,
+    location_timezone_offset, location_timezone_description, email,
+    dob_date, dob_age, registered_date, registered_age,
+    id_name, id_value, picture_large, picture_medium, picture_thumbnail, nat
+)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+-- Supprimer tous les utilisateurs
+clearAll:
+DELETE FROM UsersEntity;
+
+-- Obtenir la dernière page
+getLastPage:
+SELECT MAX(page) FROM PageEntity;
+
+-- Insérer une page
+insertPage:
+INSERT OR IGNORE INTO PageEntity (page)
+VALUES (?);
+
+-- Supprimer toutes les pages
+clearPage:
+DELETE FROM PageEntity;

@@ -1,5 +1,6 @@
 package com.amarchaud.data.db
 
+/*
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -18,4 +19,4 @@ import com.amarchaud.data.models.UserEntityModel
 abstract class PaginationDemoDb : RoomDatabase() {
     abstract fun getPaginationDemoDao(): PaginationDemoDao
 }
-
+ */
