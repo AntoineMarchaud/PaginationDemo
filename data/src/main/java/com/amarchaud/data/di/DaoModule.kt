@@ -1,32 +1,29 @@
 package com.amarchaud.data.di
 
-import android.content.Context
-import androidx.room.Room
+import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.amarchaud.data.db.PaginationDemoDao
-import com.amarchaud.data.db.PaginationDemoDb
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import com.amarchaud.data.db.PaginationDemoDaoImpl
+import com.amarchaud.database.PaginationDemoDatabase
+import org.koin.android.ext.koin.androidContext
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-class DaoModule {
-
-    @Singleton
-    @Provides
-    fun provideDatabase(
-        @ApplicationContext appContext: Context,
-    ): PaginationDemoDb {
-        return Room.databaseBuilder(appContext, PaginationDemoDb::class.java, "PaginationDemoDb")
-            .build()
+val daoModule = module {
+    single<SqlDriver> {
+        AndroidSqliteDriver(
+            schema = PaginationDemoDatabase.Schema,
+            context = androidContext(),
+            name = "PaginationDemoDatabase.db"
+        )
     }
-
-    @Singleton
-    @Provides
-    fun provideComposeNetworkDao(PaginationDemoDb: PaginationDemoDb): PaginationDemoDao {
-        return PaginationDemoDb.getPaginationDemoDao()
+    single {
+        PaginationDemoDatabase(
+            driver = get()
+        )
+    }
+    single<PaginationDemoDao> {
+        PaginationDemoDaoImpl(
+            database = get()
+        )
     }
 }
