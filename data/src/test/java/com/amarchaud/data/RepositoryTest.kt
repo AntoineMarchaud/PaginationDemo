@@ -9,21 +9,20 @@ import com.amarchaud.data.db.PaginationDemoDao
 import com.amarchaud.data.mappers.toDomain
 import com.amarchaud.data.models.ResultsDataModel
 import com.amarchaud.data.models.UserDataModel
-import com.amarchaud.data.models.UserEntityModel
 import com.amarchaud.data.repository.PaginationDemoRepositoryImpl
+import com.amarchaud.database.UsersEntity
 import com.amarchaud.domain.models.ErrorApiModel
 import com.amarchaud.domain.models.UserModel
 import com.amarchaud.domain.repository.PaginationDemoRepository
+import io.ktor.server.plugins.BadRequestException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.runTest
-import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
-import retrofit2.Response
 
 class RepositoryTest {
 
@@ -32,7 +31,7 @@ class RepositoryTest {
 
     private lateinit var repository: PaginationDemoRepository
 
-    private val mockEntityUser = UserEntityModel(
+    private val mockEntityUser = UsersEntity(
         _id = 0,
         email = "example@gmail.com"
     )
@@ -41,8 +40,8 @@ class RepositoryTest {
         email = "example@gmail.com"
     )
 
-    private val mockPagingSource = object : PagingSource<Int, UserEntityModel>() {
-        override suspend fun load(params: LoadParams<Int>): LoadResult<Int, UserEntityModel> {
+    private val mockPagingSource = object : PagingSource<Int, UsersEntity>() {
+        override suspend fun load(params: LoadParams<Int>): LoadResult<Int, UsersEntity> {
             // Simulate loading data from a data source
             return LoadResult.Page(
                 data = List(3) { mockEntityUser },
@@ -51,7 +50,7 @@ class RepositoryTest {
             )
         }
 
-        override fun getRefreshKey(state: PagingState<Int, UserEntityModel>): Int? {
+        override fun getRefreshKey(state: PagingState<Int, UsersEntity>): Int? {
             // Return null because the refresh key is not needed for this mock implementation
             return null
         }
@@ -69,7 +68,7 @@ class RepositoryTest {
     fun `check getRandomUsersRoom and map it to domain`() = runTest {
         whenever(daoMock.getUsersPagingSource()).thenReturn(mockPagingSource)
         whenever(apiMock.getRandomUsers(any(), any(), any())).thenReturn(
-            Response.success(
+            Result.success(
                 ResultsDataModel(
                     users = List(3) { mockApiUser }
                 )
@@ -89,9 +88,8 @@ class RepositoryTest {
     fun `check getRandomUsersRoom KO`() = runTest {
         whenever(daoMock.getUsersPagingSource()).thenReturn(mockPagingSource)
         whenever(apiMock.getRandomUsers(any(), any(), any())).thenReturn(
-            Response.error(
-                400,
-                "{ \"error\": \"error\" }".toResponseBody()
+            Result.failure(
+                BadRequestException("{ \"error\": \"error\" }")
             )
         )
 

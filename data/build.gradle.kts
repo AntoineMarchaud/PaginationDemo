@@ -3,9 +3,8 @@ plugins {
     // JetBrains
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.org.jetbrains.kotlin.serializable)
-    // Hilt
-    alias(libs.plugins.com.google.devtools.ksp)
-    alias(libs.plugins.com.google.dagger.hilt.android)
+    // Sqldelight
+    alias(libs.plugins.sqldelight)
 }
 
 android {
@@ -52,20 +51,18 @@ kotlin {
 dependencies {
     implementation(project(":domain"))
 
-    // Hilt
-    implementation(libs.hilt.android)
-    implementation(libs.bundles.hilt.androidx)
-    ksp(libs.hiltCompiler)
+    // koin
+    implementation(platform(libs.koin.bom))
+    implementation(libs.bundles.koin)
 
     // KTX
     implementation(libs.core.ktx)
 
-    // Retrofit
-    implementation(libs.bundles.api)
+    // Ktor
+    implementation(libs.bundles.ktor)
 
-    // Room
-    implementation(libs.bundles.room)
-    ksp(libs.roomCompiler)
+    // sqldelight
+    implementation(libs.bundles.sqldelight)
 
     // Serialization
     implementation(libs.kotlinx.serialization.json)
@@ -75,4 +72,12 @@ dependencies {
 
     // Test
     testImplementation(libs.bundles.test)
+}
+
+sqldelight {
+    databases {
+        register("PaginationDemoDatabase") {
+            packageName.set("com.amarchaud.database")
+        }
+    }
 }

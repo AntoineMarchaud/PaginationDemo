@@ -8,27 +8,25 @@ import androidx.paging.map
 import com.amarchaud.data.api.PaginationDemoApi
 import com.amarchaud.data.db.PaginationDemoDao
 import com.amarchaud.data.mappers.toDomain
+import com.amarchaud.data.repository.remotemediator.RandomUsersRemoteMediator
 import com.amarchaud.domain.models.UserModel
 import com.amarchaud.domain.repository.PaginationDemoRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import repository.remotemediator.RandomUsersRemoteMediator
-import javax.inject.Inject
 
-class PaginationDemoRepositoryImpl @Inject constructor(
-    private val paginationDemoApi: PaginationDemoApi,
-    private val paginationDemoDao: PaginationDemoDao
+class PaginationDemoRepositoryImpl(
+    private val paginationDemoDao: PaginationDemoDao,
+    private val paginationDemoApi: PaginationDemoApi
 ) : PaginationDemoRepository {
 
-    // methode 2 : with room
     @OptIn(ExperimentalPagingApi::class)
     override fun getRandomUsers(): Flow<PagingData<UserModel>> = Pager(
         config = PagingConfig(
             pageSize = 20,
         ),
         remoteMediator = RandomUsersRemoteMediator(
-            PaginationDemoApi = paginationDemoApi,
-            PaginationDemoDao = paginationDemoDao
+            paginationDemoDao = paginationDemoDao,
+            paginationDemoApi = paginationDemoApi
         ),
         pagingSourceFactory = {
             paginationDemoDao.getUsersPagingSource()

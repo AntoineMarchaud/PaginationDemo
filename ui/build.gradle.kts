@@ -4,9 +4,6 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.org.jetbrains.kotlin.serializable)
     alias(libs.plugins.compose.compiler)
-    // Hilt
-    alias(libs.plugins.com.google.devtools.ksp)
-    alias(libs.plugins.com.google.dagger.hilt.android)
 }
 
 android {
@@ -52,10 +49,9 @@ kotlin {
 dependencies {
     implementation(project(":domain"))
 
-    // Hilt
-    implementation(libs.hilt.android)
-    implementation(libs.bundles.hilt.androidx)
-    ksp(libs.hiltCompiler)
+    // koin
+    implementation(platform(libs.koin.bom))
+    implementation(libs.bundles.koin)
 
     // Compose
     implementation(platform(libs.compose.bom))
