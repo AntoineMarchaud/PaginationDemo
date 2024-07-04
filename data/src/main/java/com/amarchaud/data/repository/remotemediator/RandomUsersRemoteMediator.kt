@@ -1,26 +1,25 @@
-package repository.remotemediator
+package com.amarchaud.data.repository.remotemediator
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.amarchaud.data.api.PaginationDemoApi
-import com.amarchaud.data.api.apiResult
 import com.amarchaud.data.db.PaginationDemoDao
 import com.amarchaud.data.mappers.toDomain
 import com.amarchaud.data.mappers.toEntity
 import com.amarchaud.data.models.ErrorApiDataModel
 import com.amarchaud.data.models.PageEntityModel
-import com.amarchaud.data.models.UserEntityModel
+import com.amarchaud.database.UsersEntity
 import com.amarchaud.domain.models.ErrorApiModel
 import kotlinx.coroutines.delay
 import kotlin.coroutines.cancellation.CancellationException
 
 @OptIn(ExperimentalPagingApi::class)
 class RandomUsersRemoteMediator(
-    private val PaginationDemoDao: PaginationDemoDao,
-    private val PaginationDemoApi: PaginationDemoApi
-) : RemoteMediator<Int, UserEntityModel>() {
+    private val paginationDemoDao: PaginationDemoDao,
+    private val paginationDemoApi: PaginationDemoApi
+) : RemoteMediator<Int, UsersEntity>() {
 
     override suspend fun initialize(): InitializeAction {
         return InitializeAction.LAUNCH_INITIAL_REFRESH
@@ -28,14 +27,14 @@ class RandomUsersRemoteMediator(
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, UserEntityModel>
+        state: PagingState<Int, UsersEntity>
     ): MediatorResult {
 
         val page = when (loadType) {
             LoadType.REFRESH -> 1
             LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
             LoadType.APPEND -> {
-                PaginationDemoDao.getLastPage()?.plus(1) ?: return MediatorResult.Success(
+                paginationDemoDao.getLastPage()?.plus(1) ?: return MediatorResult.Success(
                     endOfPaginationReached = true
                 )
             }
@@ -43,7 +42,7 @@ class RandomUsersRemoteMediator(
 
         runCatching {
             delay(300)
-            apiResult(PaginationDemoApi.getRandomUsers(page = page)).getOrThrow()
+            paginationDemoApi.getRandomUsers(page = page).getOrThrow()
         }.fold(
             onSuccess = {
                 if (it.users.isEmpty()) {
@@ -51,14 +50,14 @@ class RandomUsersRemoteMediator(
                 }
 
                 if (loadType == LoadType.REFRESH) {
-                    PaginationDemoDao.clearAll()
-                    PaginationDemoDao.clearPage()
+                    paginationDemoDao.clearAll()
+                    paginationDemoDao.clearPage()
                 }
 
                 // insert users in DB
                 it.users.let { allUsersDataModel ->
-                    PaginationDemoDao.insertPage(PageEntityModel(it.info?.page ?: 1))
-                    PaginationDemoDao.insertAll(
+                    paginationDemoDao.insertPage(page = PageEntityModel(it.info?.page ?: 1))
+                    paginationDemoDao.insertAll(
                         allUsersDataModel.map { oneUserDataModel ->
                             oneUserDataModel.toEntity()
                         }

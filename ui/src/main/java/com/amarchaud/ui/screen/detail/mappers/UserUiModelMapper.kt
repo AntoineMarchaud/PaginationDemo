@@ -6,8 +6,8 @@ import com.amarchaud.ui.screen.mainList.mappers.toGenericUiModel
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
-import org.osmdroid.util.GeoPoint
 import kotlinx.datetime.toLocalDateTime
+import org.osmdroid.util.GeoPoint
 
 internal fun UserModel.toDetailUiModel() = UserDetailUiModel(
     mainInfo = this.toGenericUiModel(),

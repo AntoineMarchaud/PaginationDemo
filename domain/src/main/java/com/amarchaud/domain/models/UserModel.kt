@@ -1,7 +1,5 @@
 package com.amarchaud.domain.models
 
-import java.time.LocalDateTime
-
 data class UserModel(
     val localId: Long,
     val gender: String? = null,

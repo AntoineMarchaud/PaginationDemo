@@ -1,17 +1,14 @@
 package com.amarchaud.data.di
 
-import com.amarchaud.domain.repository.PaginationDemoRepository
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import com.amarchaud.data.repository.PaginationDemoRepositoryImpl
-import javax.inject.Singleton
+import com.amarchaud.domain.repository.PaginationDemoRepository
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class RepositoryModule {
-    @Singleton
-    @Binds
-    abstract fun bindDataRepo(repository: PaginationDemoRepositoryImpl): PaginationDemoRepository
+val repoModule = module {
+    single<PaginationDemoRepository> {
+        PaginationDemoRepositoryImpl(
+            paginationDemoDao = get(),
+            paginationDemoApi = get()
+        )
+    }
 }
