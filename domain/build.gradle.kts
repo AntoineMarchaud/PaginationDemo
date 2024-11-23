@@ -3,9 +3,6 @@ plugins {
     // JetBrains
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.org.jetbrains.kotlin.serializable)
-    // Hilt
-    alias(libs.plugins.com.google.devtools.ksp)
-    alias(libs.plugins.com.google.dagger.hilt.android)
 }
 
 android {
@@ -48,10 +45,9 @@ kotlin {
 
 
 dependencies {
-    // Hilt
-    implementation(libs.hilt.android)
-    implementation(libs.bundles.hilt.androidx)
-    ksp(libs.hiltCompiler)
+    // koin
+    implementation(platform(libs.koin.bom))
+    implementation(libs.bundles.koin)
 
     // Compose Paging
     implementation(libs.compose.paging)
