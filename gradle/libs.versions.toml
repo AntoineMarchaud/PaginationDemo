@@ -6,46 +6,45 @@ android-targetSdk = "35"
 
 # Plugins
 javaxInject = "1"
-kotlin = "2.0.21"
+kotlin = "2.1.21"
 android_gradle_plugin = "8.7.3"
-kotlinxCoroutinesTest = "1.7.3"
-kotlinxSerializationJson = "1.7.3"
-ksp-plugin = "2.0.21-1.0.25"
+kotlinxSerializationJson = "1.8.1"
+ksp-plugin = "2.1.21-2.0.1"
 
 #Hilt
-hilt = "2.51"
+hilt = "2.56.2"
 hiltAndroidX = "1.2.0"
 
 # Ktx
-activity_ktx = "1.9.3"
-core_ktx = "1.15.0"
-fragment_ktx = "1.8.5"
+activity_ktx = "1.10.1"
+core_ktx = "1.16.0"
+fragment_ktx = "1.8.6"
 
 # Compose
-activity_compose = "1.9.3"
-compose_bom = "2024.12.01"
-constraintlayout_compose = "1.1.0"
-accompanist = "0.36.0"
-pagingCommon = "3.3.5"
+activity_compose = "1.10.1"
+compose_bom = "2025.05.00"
+constraintlayout_compose = "1.1.1"
+accompanist = "0.37.3"
+pagingCommon = "3.3.6"
 
 # Coroutines
-coroutines_version = "1.9.0"
+coroutines_version = "1.10.2"
 
 # Navigation
-navigation_version = "2.8.5"
+navigation_version = "2.9.0"
 
 # Others
-coil_version = "3.0.3"
+coil_version = "3.2.0"
 
-retrofit_version = "2.11.0"
-room = "2.6.1"
+retrofit_version = "3.0.0"
+room = "2.7.1"
 okhttp = "4.12.0"
 
 [bundles]
 
 compose = ["compose_viewbinding", "compose_material", "compose_animation", "compose_tooling", "compose_livedata",
     "constraintlayout_compose", "activity_compose", "compose_paging"]
-accompanist = ["accompanist_theme", "accompanist_uicontroller", "accompanist_permissions", "accompanist-drawablepainter"]
+accompanist = ["accompanist_permissions", "accompanist-drawablepainter"]
 navigation = ["navigation_compose", "navigation_fragment_ktx", "navigation_ui_ktx"]
 hilt_androidx = ["hilt_androidx_navigation_compose", "hilt_androidx_navigation_fragment", "hilt_androidx_navigation", "hilt_androidx_common"]
 test = ["junit", "kotlinx_coroutines_test", "mockito_kotlin", "mockito_inline", "paging_test"]
@@ -95,8 +94,6 @@ navigation_compose = { module = "androidx.navigation:navigation-compose", versio
 navigation_fragment_ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation_version" }
 navigation_ui_ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation_version" }
 
-accompanist_theme = { module = "com.google.accompanist:accompanist-appcompat-theme", version.ref = "accompanist" }
-accompanist_uicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 accompanist_permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
 accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanist" }
 
