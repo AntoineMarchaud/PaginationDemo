@@ -1,14 +1,13 @@
 package com.amarchaud.ui.theme
 
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.lightColors
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 
-private val LightColorPalette = lightColors(
+private val LightColorPalette = lightColorScheme(
     primary = Purple500,
-    primaryVariant = Purple700,
     secondary = Teal200,
     onPrimary = Color.White,
     onSecondary = Color.White,
@@ -21,7 +20,7 @@ fun PaginationDemoTheme(content: @Composable () -> Unit) {
 
     CompositionLocalProvider(LocalSpacing provides Spacing()) {
         MaterialTheme(
-            colors = LightColorPalette,
+            colorScheme = LightColorPalette,
             typography = Typography,
             shapes = Shapes,
             content = content

@@ -5,7 +5,6 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,12 +15,10 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
@@ -80,7 +77,7 @@ fun MainListComposable(
     )
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MainListScreen(
     users: LazyPagingItems<UserGenericUiModel>,
@@ -127,27 +124,21 @@ private fun MainListScreen(
         label = "animate alpha",
     )
 
-    val state = rememberPullRefreshState(
-        refreshing = canDisplayPullToRefresh && users.loadState.refresh == LoadState.Loading,
-        onRefresh = {
-            canDisplayEnterAnimation = false
-            onRefresh()
-        }
-    )
-
     LaunchedEffect(key1 = users.loadState.refresh, key2 = users.itemCount) {
         if (users.loadState.refresh is LoadState.NotLoading && users.itemCount > 0) {
             canDisplayPullToRefresh = true
         }
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .pullRefresh(state = state),
+    PullToRefreshBox(
+        isRefreshing = canDisplayPullToRefresh && users.loadState.refresh == LoadState.Loading,
+        onRefresh = {
+            canDisplayEnterAnimation = false
+            onRefresh()
+        },
     ) {
         LazyVerticalGrid(
-            modifier = Modifier.matchParentSize(),
+            modifier = Modifier.fillMaxSize(),
             columns = GridCells.Fixed(2),
         ) {
 
@@ -256,12 +247,6 @@ private fun MainListScreen(
                 else -> {}
             }
         }
-
-        PullRefreshIndicator(
-            refreshing = canDisplayPullToRefresh && users.loadState.refresh == LoadState.Loading,
-            state = state,
-            modifier = Modifier.align(Alignment.TopCenter)
-        )
     }
 }
 
