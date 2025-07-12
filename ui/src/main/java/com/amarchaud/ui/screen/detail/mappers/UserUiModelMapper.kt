@@ -1,12 +1,13 @@
-package com.amarchaud.ui.screen.detail.mappers
+@file:OptIn(ExperimentalTime::class)
 
 import com.amarchaud.domain.models.UserModel
 import com.amarchaud.ui.screen.detail.models.UserDetailUiModel
 import com.amarchaud.ui.screen.mainList.mappers.toGenericUiModel
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 import org.osmdroid.util.GeoPoint
 
 internal fun UserModel.toDetailUiModel() = UserDetailUiModel(

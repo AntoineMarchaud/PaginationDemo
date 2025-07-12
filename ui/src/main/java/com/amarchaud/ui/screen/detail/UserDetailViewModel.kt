@@ -4,13 +4,13 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amarchaud.domain.usecase.GetOneUserUseCase
-import com.amarchaud.ui.screen.detail.mappers.toDetailUiModel
 import com.amarchaud.ui.screen.detail.models.UserDetailUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import toDetailUiModel
 import javax.inject.Inject
 
 @HiltViewModel

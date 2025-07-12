@@ -1,11 +1,14 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.amarchaud.data.adapters
 
 import androidx.room.TypeConverter
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 object RoomConverter {
 

@@ -6,10 +6,10 @@ android-targetSdk = "36"
 
 # Plugins
 javaxInject = "1"
-kotlin = "2.1.21"
-android_gradle_plugin = "8.7.3"
-kotlinxSerializationJson = "1.8.1"
-ksp-plugin = "2.1.21-2.0.1"
+kotlin = "2.2.0"
+android_gradle_plugin = "8.11.1"
+kotlinxSerializationJson = "1.9.0"
+ksp-plugin = "2.2.0-2.0.2"
 
 #Hilt
 hilt = "2.56.2"
@@ -31,14 +31,14 @@ pagingCommon = "3.3.6"
 coroutines_version = "1.10.2"
 
 # Navigation
-navigation_version = "2.9.0"
+navigation_version = "2.9.1"
 
 # Others
 coil_version = "3.2.0"
 
 retrofit_version = "3.0.0"
 room = "2.7.2"
-okhttp = "4.12.0"
+okhttp = "5.1.0"
 
 [bundles]
 
@@ -107,19 +107,19 @@ room = { module = "androidx.room:room-runtime", version.ref = "room" }
 roomPaging = { module = "androidx.room:room-paging", version.ref = "room" }
 roomktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 
-osmdroid = { module = 'org.osmdroid:osmdroid-android', version = '6.1.18' }
+osmdroid = { module = 'org.osmdroid:osmdroid-android', version = '6.1.20' }
 
 coil-main = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil_version" }
 coil-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil_version" }
 
-kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.6.1" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.7.1" }
 
 # for KSP
 hiltCompiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 roomCompiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
 junit = { module = "junit:junit", version = "4.13.2" }
-mockito_kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "5.0.0" }
+mockito_kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "5.4.0" }
 mockito_inline = { group = "org.mockito", name = "mockito-inline", version = "5.2.0" }
 kotlinx_coroutines_test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines_version" }
 paging_test = { module = "androidx.paging:paging-testing", version.ref = "pagingCommon" }
