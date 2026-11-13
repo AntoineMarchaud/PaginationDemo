@@ -1,5 +1,3 @@
-import com.android.build.api.dsl.Packaging
-
 plugins {
     // Android
     alias(libs.plugins.com.android.application)
@@ -38,15 +36,12 @@ android {
         }
     }
 
-    kotlin.sourceSets.configureEach {
-        languageSettings.optIn("kotlin.RequiresOptIn")
-    }
 
     buildFeatures {
         compose = true
     }
 
-    fun Packaging.() {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
@@ -59,6 +54,9 @@ android {
 
 kotlin {
     jvmToolchain(21)
+    compilerOptions {
+        optIn.add("kotlin.RequiresOptIn")
+    }
 }
 
 dependencies {

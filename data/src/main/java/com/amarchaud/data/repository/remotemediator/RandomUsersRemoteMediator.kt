@@ -43,7 +43,7 @@ class RandomUsersRemoteMediator(
 
         runCatching {
             delay(300)
-            apiResult(PaginationDemoApi.getRandomUsers(page = page)).getOrThrow()
+            apiResult { PaginationDemoApi.getRandomUsers(page = page) }.getOrThrow()
         }.fold(
             onSuccess = {
                 if (it.users.isEmpty()) {

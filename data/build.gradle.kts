@@ -29,9 +29,6 @@ android {
     }
 
 
-    kotlin.sourceSets.configureEach {
-        languageSettings.optIn("kotlin.RequiresOptIn")
-    }
 
 
     testOptions {
@@ -45,6 +42,9 @@ android {
 
 kotlin {
     jvmToolchain(21)
+    compilerOptions {
+        optIn.add("kotlin.RequiresOptIn")
+    }
 }
 
 

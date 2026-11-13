@@ -15,9 +15,8 @@ object RoomConverter {
     data object LocalDateRoomConverter {
         @TypeConverter
         fun fromLocalDateTime(value: LocalDateTime?): String? {
-            // Convertir LocalDateTime en chaîne ISO 8601
-            val utcDateString = value?.toString()
-            return "${utcDateString}Z"
+            // Convertir LocalDateTime en chaîne ISO 8601 (null reste null)
+            return value?.let { "${it}Z" }
         }
 
         @TypeConverter

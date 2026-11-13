@@ -6,8 +6,8 @@ plugins {
 kotlin {
     jvmToolchain(21)
 
-    sourceSets.all {
-        languageSettings.optIn("kotlin.RequiresOptIn")
+    compilerOptions {
+        optIn.add("kotlin.RequiresOptIn")
     }
 }
 

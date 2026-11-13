@@ -31,9 +31,6 @@ android {
         }
     }
 
-    kotlin.sourceSets.configureEach {
-        languageSettings.optIn("kotlin.RequiresOptIn")
-    }
 
     testOptions {
         unitTests.isReturnDefaultValues = true
@@ -43,6 +40,9 @@ android {
 
 kotlin {
     jvmToolchain(21)
+    compilerOptions {
+        optIn.add("kotlin.RequiresOptIn")
+    }
 }
 
 

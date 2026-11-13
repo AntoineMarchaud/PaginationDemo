@@ -2,13 +2,21 @@ package com.amarchaud.data.api
 
 import com.amarchaud.data.models.ErrorApiDataModel
 import retrofit2.Response
+import java.io.IOException
 import java.net.SocketTimeoutException
+import kotlin.coroutines.cancellation.CancellationException
 
-inline fun <reified T> apiResult(response: Response<T>): Result<T> {
+/**
+ * Runs the Retrofit [call] and turns its outcome into a typed [Result].
+ * The call is executed inside the try block so that network failures
+ * (no connection, timeout) are mapped too, not only HTTP errors.
+ */
+suspend inline fun <reified T> apiResult(call: suspend () -> Response<T>): Result<T> {
     return try {
+        val response = call()
         when (response.isSuccessful) {
             true -> {
-                return if ((response.code() == 200 || response.code() == 201) && response.body() != null) {
+                if ((response.code() == 200 || response.code() == 201) && response.body() != null) {
                     Result.success(response.body()!!)
                 } else if (response.code() == 204) {
                     when (T::class) {
@@ -30,11 +38,15 @@ inline fun <reified T> apiResult(response: Response<T>): Result<T> {
                 )
             }
         }
+    } catch (e: CancellationException) {
+        // never swallow coroutine cancellation
+        throw e
     } catch (e: Throwable) {
         Result.failure(
             when (e) {
+                // timeouts are IOExceptions too: check them first
                 is SocketTimeoutException -> ErrorApiDataModel.SocketTimeOutError()
-                is ErrorApiDataModel.NoInternetError -> ErrorApiDataModel.NoInternetError() // raised by HttpInterceptor
+                is IOException -> ErrorApiDataModel.NoInternetError()
                 else -> ErrorApiDataModel.ApiGenericServerError()
             }
         )
